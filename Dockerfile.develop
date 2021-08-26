@@ -1,0 +1,34 @@
+FROM rust:1.54
+
+ARG USERNAME=vs_rust
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+RUN apt-get update \
+	# install common developer tools
+    && apt-get install -y --no-install-recommends \
+	apt-utils \
+	build-essential \
+	ca-certificates \
+	git \
+	sudo \
+	# create a non-root user to match UID/GID
+	&& groupadd --gid $USER_GID $USERNAME \
+	&& useradd -s /bin/bash --uid $USER_UID --gid $USERNAME -m $USERNAME \
+	# add sudo support for non-root user
+	&& echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME \
+	# clean up
+	&& apt-get clean -y \
+	&& apt-get autoremove -y \
+	&& rm -rf /var/lib/apt/lists/*
+
+USER ${USERNAME}
+
+WORKDIR /app
+
+COPY . .
+
+RUN rustup component add rust-analysis --toolchain 1.54.0-x86_64-unknown-linux-gnu && \
+    rustup component add rust-src --toolchain 1.54.0-x86_64-unknown-linux-gnu && \
+	rustup component add rls --toolchain 1.54.0-x86_64-unknown-linux-gnu
