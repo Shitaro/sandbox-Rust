@@ -6,5 +6,5 @@ services:
       dockerfile: Dockerfile.develop
     container_name: sandbox-rust
     volumes:
-      - .:/app
+      - .:/home/vs_rust/app
     tty: true

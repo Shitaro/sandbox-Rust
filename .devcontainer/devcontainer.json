@@ -5,7 +5,7 @@
 		"docker-compose.yml",
 	],
 	"service": "app",
-	"workspaceFolder": "/app",
+	"workspaceFolder": "/home/vs_rust/app",
 	"settings": {},
 	"extensions": [
 		"rust-lang.rust",
