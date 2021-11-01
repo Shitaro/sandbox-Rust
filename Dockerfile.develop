@@ -1,4 +1,4 @@
-FROM rust:1.54
+FROM rust:1.56
 
 ARG USERNAME=vs_rust
 ARG USER_UID=1000
@@ -29,7 +29,4 @@ WORKDIR /home/${USERNAME}/app
 
 COPY . .
 
-RUN rustup component add rust-analysis --toolchain 1.54.0-x86_64-unknown-linux-gnu && \
-    rustup component add rust-src --toolchain 1.54.0-x86_64-unknown-linux-gnu && \
-	rustup component add rls --toolchain 1.54.0-x86_64-unknown-linux-gnu && \
-	rustup component add clippy --toolchain 1.54.0-x86_64-unknown-linux-gnu
+RUN rustup component add rust-analysis rust-src rls clippy
